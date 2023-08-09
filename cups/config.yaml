@@ -12,6 +12,7 @@ arch:
   - aarch64
 usb: true
 init: false
+host_dbus: true
 homeassistant_api: true
 # host_network: true
 ports:
