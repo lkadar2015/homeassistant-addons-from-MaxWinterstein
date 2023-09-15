@@ -9,18 +9,18 @@ cafile=$(bashio::config cafile)
 hostname=$(bashio::info.hostname)
 fqdn=$(hostname --fqdn)
 
-bashio::log.info "1..."
+echo "1..."
 
 mkdir -p /data/ssl
 
-bashio::log.info "2..."
+echo "2..."
 
 if [ $cafile != null ] && [ -e "/ssl/$cafile" ]; then
     rm -f /data/ssl/site.crt
     ln -s "/ssl/$cafile" /data/ssl/site.crt
 fi
 
-bashio::log.info "3..."
+echo "3..."
 
 if bashio::config.true ssl; then
     rm -f "/data/ssl/$fqdn.key"
@@ -53,7 +53,7 @@ echo "$config" | tempio \
 
 mkdir -p /data/cups
 
-bashio::log.info "4..."
+echo "4..."
 
 # Start Avahi, wait for it to start up
 touch /var/run/avahi_configured
@@ -61,9 +61,9 @@ until [ -e /var/run/avahi-daemon/socket ]; do
   sleep 1s
 done
 
-bashio::log.info "5..."
+echo "5..."
 
 # Start CUPS
 /usr/sbin/cupsd -f
 
-bashio::log.info "6..."
+echo "6..."
