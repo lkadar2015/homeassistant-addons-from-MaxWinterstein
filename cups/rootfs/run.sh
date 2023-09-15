@@ -9,18 +9,24 @@ cafile=$(bashio::config cafile)
 hostname=$(bashio::info.hostname)
 fqdn=$(hostname --fqdn)
 
-echo "1..."
+# Declare variables
+declare message
+
+## Get the 'message' key from the user config options.
+message=$(bashio::config 'message')
+
+bashio::log.info "${message:="1..."}"
 
 mkdir -p /data/ssl
 
-echo "2..."
+bashio::log.info "${message:="2..."}"
 
 if [ $cafile != null ] && [ -e "/ssl/$cafile" ]; then
     rm -f /data/ssl/site.crt
     ln -s "/ssl/$cafile" /data/ssl/site.crt
 fi
 
-echo "3..."
+bashio::log.info "${message:="3..."}"
 
 if bashio::config.true ssl; then
     rm -f "/data/ssl/$fqdn.key"
@@ -53,7 +59,7 @@ echo "$config" | tempio \
 
 mkdir -p /data/cups
 
-echo "4..."
+bashio::log.info "${message:="4..."}"
 
 # Start Avahi, wait for it to start up
 touch /var/run/avahi_configured
@@ -61,9 +67,9 @@ until [ -e /var/run/avahi-daemon/socket ]; do
   sleep 1s
 done
 
-echo "5..."
+bashio::log.info "${message:="5..."}"
 
 # Start CUPS
 /usr/sbin/cupsd -f
 
-echo "6..."
+bashio::log.info "${message:="6..."}"
